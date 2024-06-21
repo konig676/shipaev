@@ -1,0 +1,32 @@
+{% if user.is_authenticated %}
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="{% url 'index' %}">Главная</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                {% if "Сотрудник обслуживания номеров" in user_groups_string or "Сотрудник предоставления услуг отеля" in user_groups_string %}
+                    <li class="nav-item">
+                    <a class="nav-link" href="{% url 'view_orders' %}">Заказы</a>
+                    </li>
+                {% endif %}
+                {% if "Сотрудник обслуживания номеров" in user_groups_string %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'create_order' %}">Создать заказ</a>
+                </li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Войти</a>
+                    </li>
+                {% endif %}
+            </ul>
+            {% if 'Менеджер' in user_groups_string %}
+                <a class="nav-link" href="/admin">Панель управления менеджера</a>
+            {% endif %}
+        </div>
+    </nav>
+{% endif %}
